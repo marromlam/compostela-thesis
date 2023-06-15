@@ -1,0 +1,171 @@
+\documentclass[ b5paper, 10pt, final, twoside, openright]{compostelathesis}
+
+
+\usepackage{booktabs, multirow, float}
+\usepackage{xspace}
+\usepackage{subcaption}
+\usepackage{multicol, array}
+\usepackage{xfrac}
+\usepackage[export]{adjustbox}
+\usepackage{lipsum}
+
+
+% extra config {{{
+
+\hbadness=10000
+\vbadness=10000
+%\hbox=10000
+\hfuzz=50.002pt
+\vfuzz=50.002pt
+
+%\setlength\itemsep{-0.5em}
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+
+% Bibliography
+\usepackage[%
+	citestyle=numeric-comp,%
+	natbib=true,%
+	backend=biber%
+]{biblatex}
+\addbibresource{backmatter/bibliography.bib}
+
+% Glossary
+\let\printglossary\relax
+\let\theglossary\relax
+\let\endtheglossary\relax
+\usepackage[nopostdot, toc]{glossaries}
+\usepackage[stylemods=mcols, style=mcolindex]{glossaries-extra}
+\setabbreviationstyle[acronym]{long-short}
+\input{glossary}
+
+% counter for subfigures
+\makeatletter
+\newcommand\resetsubfigs{\setcounter{sub\@captype}{0}}
+\makeatother
+
+% math version of tabular columns
+\newcolumntype{L}{>{$}l<{$}}
+	\newcolumntype{R}{>{$}r<{$}}
+\newcolumntype{C}{>{$}c<{$}}
+
+% figure and tables captions
+\usepackage[margin=25pt, font={small}, labelfont={rm, sc}]{caption}
+\renewcommand\thesubfigure{%
+	\textsc{\alph{subfigure}}%
+}
+\renewcommand\cftappendixname{\appendixname~}
+\setsecnumdepth{paragraph} % this one
+\settocdepth{subsection}
+\maxsecnumdepth{subsubsection}
+
+% }}}
+
+
+% Configuration of the document {{{
+
+% Document data
+\input{data}
+
+% Document dimensions
+\input{dimensions}
+
+% Command definitions
+\input{commands}
+
+\title{\myTitle}
+\date{\myTime}
+\author{\myName}
+
+% }}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% begin document
+\begin{document}
+
+\chapterstyle{compostela}
+\pagestyle{compostela}
+\maxsecnumdepth{subsubsection}
+
+% Cover {{{
+
+\includepdf[pages=1]{cover/cover_b5.pdf}
+\cleardoublepage
+\thispagestyle{empty}
+\phantom{this page is left free}
+\cleardoublepage
+
+% }}}
+
+
+% Frontmatter {{{
+
+\frontmatter
+\pagenumbering{roman}
+\glsunsetall
+\maketitle
+\input{frontmatter/declaration.tex}
+\input{frontmatter/auth.tex}
+\input{frontmatter/dedication.tex}
+\input{frontmatter/abstract.tex}
+\input{frontmatter/contents.tex}
+\glsresetall
+\input{frontmatter/foreword}
+
+% }}}
+
+
+% Mainmatter includes {{{
+
+\mainmatter
+\pagestyle{compostela}
+\pagenumbering{arabic}
+\glsresetall
+\input{mainmatter/chapter1.tex}
+\input{mainmatter/chapter2.tex}
+\input{mainmatter/chapter3.tex}
+
+% }}}
+
+
+% Appendix {{{
+
+\appendix
+\input{appendix/coefficient_tables}
+\input{appendix/random_tables}
+
+% }}}
+
+
+% Backmatter {{{
+
+\backmatter
+\cleardoublepage
+\printbibliography
+\cleardoublepage
+\printglossary
+\cleardoublepage
+\pagestyle{empty}
+\input{backmatter/ack}
+
+% }}}
+
+
+% Cover (back) {{{
+
+\cleardoublepage
+\phantom{this page is left free}
+\cleardoublepage
+\includepdf[pages=2]{cover/cover_b5.pdf}
+
+% }}}
+
+
+\end{document}
+% end document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% vim: ft=tex fdm=marker ts=2 sw=2 sts=2 sr et
