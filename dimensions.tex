@@ -1,0 +1,46 @@
+% DOCUMENT LAYOUT
+% These settings determine the look of the final document
+% The settings are for a 170mm x 240mm book
+
+\newlength{\X}
+\newlength{\Y}
+\setlength{\Y}{240.0mm}
+\setlength{\X}{170.0mm}
+\newlength{\trimX}
+\newlength{\trimY}
+
+\makeatletter
+\@ifclasswith{memoir}{drafting}{%
+%
+\stockaiv
+\setlength{\trimY}{28.5mm}
+\setlength{\trimX}{20.0mm}
+\settrims{\trimY}{\trimX}
+\setstocksize{297mm}{210mm}
+\settrimmedsize{240mm}{170mm}{*}
+%\settypeblocksize{671.6pt}{335.8pt}{*}
+%\setlrmargins{*}{*}{4}
+%\setulmargins{*}{*}{2}
+\setlrmarginsandblock{30mm}{20mm}{*} 
+\setulmarginsandblock{20mm}{30mm}{*} 
+\setmarginnotes{5mm}{10mm}{\onelineskip}
+\setlength{\footskip}{2.0\baselineskip}
+\checkandfixthelayout
+\trimFrame
+\strictpagecheck
+}{%
+%
+\setlength{\trimY}{0.00mm}
+\setlength{\trimX}{0.00mm}
+\setstocksize{240mm}{170mm}
+\settrimmedsize{240mm}{170mm}{*}
+\setlrmarginsandblock{30mm}{20mm}{*} 
+\setulmarginsandblock{20mm}{30mm}{*}
+\checkandfixthelayout
+%\trimFrame
+%\strictpagecheck
+}
+\makeatother
+
+
+% vim: ft=tex fdm=marker ts=2 sw=2 sts=2 sr et
