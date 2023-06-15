@@ -15,5 +15,5 @@
 *.dvi
 *.glo
 *.ist
-*.pdf
+main.pdf
 *.cfl
