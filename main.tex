@@ -1,5 +1,16 @@
-\documentclass[ b5paper, 10pt, final, twoside, openright]{compostelathesis}
+\documentclass[
+    b5paper,  % paper size
+    10pt, % font size for normaltext
+    final, % whether is final or not
+    twoside, % left and right pages have different margins
+    openright, % every chapter starts on right page
+    livetypeset % when using texifier, whether to live compile or full typeset
+]{compostelathesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\newcommand\SkipFrontmatter{0}
+\newcommand\SkipBackmatter{0}
 
 \usepackage{booktabs, multirow, float}
 \usepackage{xspace}
@@ -24,12 +35,16 @@
 
 
 % Bibliography
-\usepackage[%
-	citestyle=numeric-comp,%
-	natbib=true,%
-	backend=biber%
-]{biblatex}
-\addbibresource{backmatter/bibliography.bib}
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{backmatter/bibliography.bib}
+% This wont work in live-typeset
+%\usepackage[%
+%    citestyle=numeric-comp,%
+%    natbib=true,%
+%    backend=biber%
+%]{biblatex}
+%\addbibresource{backmatter/bibliography.bib}
+
 
 % Glossary
 \let\printglossary\relax
@@ -47,13 +62,13 @@
 
 % math version of tabular columns
 \newcolumntype{L}{>{$}l<{$}}
-	\newcolumntype{R}{>{$}r<{$}}
+  \newcolumntype{R}{>{$}r<{$}}
 \newcolumntype{C}{>{$}c<{$}}
 
 % figure and tables captions
 \usepackage[margin=25pt, font={small}, labelfont={rm, sc}]{caption}
 \renewcommand\thesubfigure{%
-	\textsc{\alph{subfigure}}%
+  \textsc{\alph{subfigure}}%
 }
 \renewcommand\cftappendixname{\appendixname~}
 \setsecnumdepth{paragraph} % this one
@@ -91,28 +106,68 @@
 
 % Cover {{{
 
-\includepdf[pages=1]{cover/cover_b5.pdf}
-\cleardoublepage
-\thispagestyle{empty}
-\phantom{this page is left free}
-\cleardoublepage
+\if\SkipFrontmatter0
+    \if\LiveTypeset1
+        \begin{center}\vspace*{4cm}cover  \end{center}
+        \cleardoublepage
+        \thispagestyle{empty}
+        \begin{center}\vspace*{4cm}this page is intentionally left free\end{center}
+        \cleardoublepage
+    \else
+        \includepdf[pages=1]{cover/cover_b5.pdf}
+        \cleardoublepage
+        \thispagestyle{empty}
+        \phantom{this page is left free}
+        \cleardoublepage
+    \fi
+\fi
 
 % }}}
 
 
 % Frontmatter {{{
 
-\frontmatter
-\pagenumbering{roman}
-\glsunsetall
-\maketitle
-\input{frontmatter/declaration.tex}
-\input{frontmatter/auth.tex}
-\input{frontmatter/dedication.tex}
-\input{frontmatter/abstract.tex}
-\input{frontmatter/contents.tex}
-\glsresetall
-\input{frontmatter/foreword}
+\if\SkipFrontmatter0
+    \frontmatter
+    \pagenumbering{roman}
+    \glsunsetall
+    \if\LiveTypeset1
+        \thispagestyle{empty}
+        \begin{center}
+        \emph{This is a draft of:}\\[1cm]
+        \HUGE\myTitle\\[1cm]
+        \Large\mySubtitle\\[1cm]
+        \normalsize
+        \emph{by}\\[1cm]
+        \myName\\[2cm]
+        \emph{advised by}\\
+        \myPromotor, \myCopromotor\\
+        and\\
+        \myAdvisor\\[1cm]
+        \emph{to obtain the title of:}\\
+        \myDegree\\
+        \emph{at}\\
+        \myInstitute, \myFaculty\\
+        \myDepartment, \myUniversity\\
+        \emph{in}\\
+        \myLocation\\[1cm]
+        \emph{to be defended}\\
+        \myTime
+
+        \vfill
+        \myVersion
+        \end{center}
+    \else
+      \maketitle
+    \fi
+    \input{frontmatter/declaration.tex}
+    \input{frontmatter/auth.tex}
+    \input{frontmatter/dedication.tex}
+    \input{frontmatter/abstract.tex}
+    \input{frontmatter/contents.tex}
+    \glsresetall
+    \input{frontmatter/foreword}
+\fi
 
 % }}}
 
@@ -132,15 +187,18 @@
 
 % Appendix {{{
 
-\appendix
-\input{appendix/coefficient_tables}
-\input{appendix/random_tables}
+\if\SkipBackmatter0
+    \if\LiveTypeset0
+        \appendix
+    \fi
+    \input{appendix/coefficient_tables}
+    \input{appendix/random_tables}
+\fi
 
 % }}}
 
 
 % Backmatter {{{
-
 \backmatter
 \cleardoublepage
 \printbibliography
@@ -148,17 +206,30 @@
 \printglossary
 \cleardoublepage
 \pagestyle{empty}
-\input{backmatter/ack}
+%\input{backmatter/ack}
 
 % }}}
 
 
 % Cover (back) {{{
 
-\cleardoublepage
-\phantom{this page is left free}
-\cleardoublepage
-\includepdf[pages=2]{cover/cover_b5.pdf}
+\if\SkipBackmatter0
+  \if\LiveTypeset1
+      \cleardoublepage
+      \begin{center}
+          \vspace*{4cm}this page is intentionally left free
+      \end{center}
+      \cleardoublepage
+      \begin{center}
+          \vspace*{4cm}cover
+      \end{center}
+  \else
+      \cleardoublepage
+      \phantom{this page is left free}
+      \cleardoublepage
+      \includepdf[pages=2]{cover/cover_b5.pdf}
+  \fi
+\fi
 
 % }}}
 
