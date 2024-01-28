@@ -15,3 +15,7 @@
 - If you want to contribute, open a Pull Request.
 
 
+## Thesis using this template
+- Alexandre Brea Rodriguez, *Search for violation of leptonic universality in semileptonic decays of strange particles in LHCb*, 2023
+- Marcos Romero Lamas, *Measurement of the bottom-strange meson oscillations at LHCb*, 2022
+
